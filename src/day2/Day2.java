@@ -10,16 +10,16 @@ public class Day2 {
 
     private static final String path = "src\\day2\\input.txt";
     public static void getAnswer() {
-        int safeLinesCounter = 0;
+        int safeReportsCounter = 0;
         for (String s : FileUtils.getListOfLines(path)){
-            if (isSafeLevel(s)) safeLinesCounter+=1;
+            if (isSafeLevel(s)) safeReportsCounter+=1;
         }
 
-        System.out.println(safeLinesCounter);
+        System.out.println(safeReportsCounter);
     }
 
-    private static boolean isSafeLevel(String level) {
-        List<Integer> levelList = getLevelList(level);
+    private static boolean isSafeLevel(String report) {
+        List<Integer> levelList = getLevelList(report);
         boolean isIncreasingPattern = false;
         boolean isSafe = false;
 
@@ -47,9 +47,9 @@ public class Day2 {
         return isSafe;
     }
 
-    private static List<Integer> getLevelList (String level) {
+    private static List<Integer> getLevelList (String report) {
         List<Integer> levelList = new ArrayList<>();
-        for (String s: StringUtils.splitBySpaces(level)) {
+        for (String s: StringUtils.splitBySpaces(report)) {
             levelList.add(Integer.parseInt(s));
         }
 
