@@ -1,6 +1,6 @@
 package day2;
 
-import utils.StringSplitter;
+import utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Day2 {
 
     private static List<Integer> getLevelList (String level) {
         List<Integer> levelList = new ArrayList<>();
-        for (String s: StringSplitter.splitBySpaces(level)) {
+        for (String s: StringUtils.splitBySpaces(level)) {
             levelList.add(Integer.parseInt(s));
         }
 
