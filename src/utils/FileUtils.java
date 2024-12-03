@@ -17,4 +17,15 @@ public class FileUtils {
 
         return null;
     }
+
+    public static String getOneString(String path) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(path)));
+            return content;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
