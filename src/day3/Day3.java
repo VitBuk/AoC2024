@@ -9,19 +9,21 @@ import java.util.regex.Pattern;
 
 public class Day3 {
 
-    private static final  String regex = "mul\\((\\d{1,3}),(\\d{1,3})\\)";
+    private static final String regex = "mul\\((\\d{1,3}),(\\d{1,3})\\)";
     private static final String path = "src\\day3\\input.txt";
 
     public static void getAnswer() {
-        System.out.println(getSumOfMuls(FileUtils.getOneString(path)));
+        String changedInput = removeDisabledInstructions(FileUtils.getOneString(path));
+        System.out.println(getSumOfMuls(changedInput));
     }
 
+    private static String removeDisabledInstructions(String input) {
+        String dontRegex = "(?s)don't\\(\\).*?do\\(\\)";
+        return input.replaceAll(dontRegex, "");
+    }
     private static Integer getSumOfMuls(String input){
         Integer sumOfMuls = 0;
         List<String> matchResults = matchResults(input);
-        for (int i=0; i<matchResults.size(); i++) {
-            System.out.println(matchResults.get(i));
-        }
         List<Integer> onlyNumbers = onlyNumbers(matchResults);
 
         for (int i=0; i<onlyNumbers.size(); i+=2) {
