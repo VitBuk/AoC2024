@@ -21,6 +21,7 @@ public class Day3 {
         String dontRegex = "(?s)don't\\(\\).*?do\\(\\)";
         return input.replaceAll(dontRegex, "");
     }
+
     private static Integer getSumOfMuls(String input){
         Integer sumOfMuls = 0;
         List<String> matchResults = matchResults(input);
