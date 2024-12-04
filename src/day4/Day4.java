@@ -14,6 +14,7 @@ public class Day4 {
 
     public static void getAnswer(){
         System.out.println(findAll(FileUtils.getOneString(path)));
+        System.out.println(findAllMASCrosses(FileUtils.getOneString(path)));
     }
 
     private static Integer findAll(String input) {
@@ -56,7 +57,6 @@ public class Day4 {
         return findALlLeftToRight(reversedNewString);
     }
 
-
     private static Integer findAllNWDiagonals(String input) {
         return findALlLeftToRight(NWDiagonalsToRows(input));
     }
@@ -82,6 +82,7 @@ public class Day4 {
                 .map(line -> new StringBuilder(line).reverse().toString())
                 .collect(Collectors.joining("\n"));
     }
+
     private static String NWDiagonalsToRows(String input) {
         String[] lines = input.split("\n");
 
@@ -142,4 +143,64 @@ public class Day4 {
         return newString.toString();
     }
 
+    private static Integer findAllMASCrosses(String input) {
+        String[] lines = input.split("\n");
+
+        int rowsLength = lines.length;
+        if (rowsLength == 0) return 0;
+        int columnsLength = lines[0].length();
+
+        char[][] grid = new char[rowsLength][columnsLength];
+
+        for (int i = 0; i < rowsLength; i++) {
+            String line = lines[i];
+
+            for (int j = 0; j < columnsLength; j++) {
+                grid[i][j] = line.charAt(j);
+            }
+        }
+
+        int crossCount = 0;
+
+        for (int i = 1; i < rowsLength - 1; i++) {
+            for (int j = 1; j < columnsLength - 1; j++) {
+                if (grid[i][j] == 'A') {
+                    if (isPattern1(grid, i, j)) crossCount++;
+                    if (isPattern2(grid, i, j)) crossCount++;
+                    if (isPattern3(grid, i, j)) crossCount++;
+                    if (isPattern4(grid, i, j)) crossCount++;
+                }
+            }
+        }
+
+        return crossCount;
+    }
+
+    private static boolean isPattern1(char[][] grid, int i, int j) {
+        return grid[i - 1][j - 1] == 'M' &&
+                grid[i - 1][j + 1] == 'M' &&
+                grid[i + 1][j - 1] == 'S' &&
+                grid[i + 1][j + 1] == 'S';
+    }
+
+    private static boolean isPattern2(char[][] grid, int i, int j) {
+        return grid[i - 1][j - 1] == 'M' &&
+                grid[i + 1][j - 1] == 'M' &&
+                grid[i - 1][j + 1] == 'S' &&
+                grid[i + 1][j + 1] == 'S';
+    }
+
+    private static boolean isPattern3(char[][] grid, int i, int j) {
+        return grid[i - 1][j - 1] == 'S' &&
+                grid[i + 1][j - 1] == 'S' &&
+                grid[i - 1][j + 1] == 'M' &&
+                grid[i + 1][j + 1] == 'M';
+    }
+
+    private static boolean isPattern4(char[][] grid, int i, int j) {
+        return grid[i - 1][j - 1] == 'S' &&
+                grid[i - 1][j + 1] == 'S' &&
+                grid[i + 1][j - 1] == 'M' &&
+                grid[i + 1][j + 1] == 'M';
+    }
 }
