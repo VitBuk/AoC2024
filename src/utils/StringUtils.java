@@ -11,6 +11,12 @@ public class StringUtils {
         return Arrays.asList(tokens);
     }
 
+    public static List<String> splitByRegex(String text, String regex) {
+        text = text.trim();
+        String[] tokens = text.split(regex);
+        return Arrays.asList(tokens);
+    }
+
     public static String columnsToRows(String input) {
         String[] lines = input.split("\n");
 

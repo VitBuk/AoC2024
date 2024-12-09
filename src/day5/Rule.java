@@ -1,28 +1,29 @@
 package day5;
 
+import java.util.List;
+
 public class Rule {
 
-    private static Integer first;
-    private static Integer next;
+    private Integer X;
+    private Integer Y;
 
-    public Rule(Integer first, Integer next) {
-        Rule.first = first;
-        Rule.next = next;
+    public Rule(Integer X, Integer Y) {
+        this.X = X;
+        this.Y = Y;
     }
 
-    public static Integer getFirst() {
-        return first;
+    public Integer getX() {
+        return X;
     }
 
-    public static void setFirst(Integer first) {
-        Rule.first = first;
+    public Integer getY() {
+        return Y;
     }
 
-    public static Integer getNext() {
-        return next;
-    }
+    public boolean isOrderedByTheRule(List<Integer> pages) {
+        if (!pages.contains(X) || !pages.contains(Y))
+            return true;
 
-    public static void setNext(Integer next) {
-        Rule.next = next;
+        return pages.indexOf(X) < pages.indexOf(Y);
     }
 }
