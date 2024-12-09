@@ -4,6 +4,7 @@ import utils.FileUtils;
 import utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,18 @@ public class Day5 {
     private static List<Rule> rules;
     public static void getAnswer(){
         setRules(FileUtils.getListOfLines(rulesPath));
-        Integer middleSum = getMiddlePageSum(getListOfInputs(FileUtils.getListOfLines(path)));
-        System.out.println(middleSum);
+        List<List<Integer>> listOfUpdates = new ArrayList<>();
+        listOfUpdates = getListOfInputs(FileUtils.getListOfLines(path));
+        System.out.println(getMiddlePageSum(listOfUpdates));
+
+        List<List<Integer>> incorrectUpdates = getIncorrectUpdates(listOfUpdates);
+        List<List<Integer>> correctedUpdates = new ArrayList<>();
+
+        for (List<Integer> update : incorrectUpdates) {
+            correctedUpdates.add(putInCorrectOrder(update));
+        }
+
+        System.out.println(getMiddlePageSum(correctedUpdates));
     }
 
     private static void setRules(List<String> textRules) {
@@ -24,16 +35,12 @@ public class Day5 {
             Rule rule = new Rule(Integer.parseInt(textRule.substring(0,2)), Integer.parseInt(textRule.substring(3,5)));
             rules.add(rule);
         }
-
-        for (Rule rule : rules) {
-            System.out.println("Rule: x = " + rule.getX() + " y = " + rule.getY());
-        }
     }
 
-    private static List<List<Integer>> getListOfInputs(List<String> inputs) {
+    private static List<List<Integer>> getListOfInputs(List<String> updates) {
         List<List<Integer>> listOfInputs = new ArrayList<>();
-        for (String input : inputs) {
-            List<String> pages = StringUtils.splitByRegex(input, ",");
+        for (String update : updates) {
+            List<String> pages = StringUtils.splitByRegex(update, ",");
             List<Integer> integerInput = new ArrayList<>();
             for (String page : pages) {
                 integerInput.add(Integer.parseInt(page));
@@ -42,16 +49,44 @@ public class Day5 {
             listOfInputs.add(integerInput);
         }
 
-        for  (List<Integer> list : listOfInputs) {
-            String output = list.stream()
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(" "));
-
-            System.out.println(output);
-        }
         return listOfInputs;
     }
 
+    private static List<List<Integer>> getIncorrectUpdates(List<List<Integer>> updates) {
+        List<List<Integer>> incorrectUpdates = new ArrayList<>();
+        for (List<Integer> update : updates) {
+            for (Rule rule : rules) {
+                if (!rule.isOrderedByTheRule(update)) {
+                    incorrectUpdates.add(update);
+                    break;
+                }
+            }
+        }
+
+        return incorrectUpdates;
+    }
+
+    private static List<Integer> putInCorrectOrder(List<Integer> update) {
+        boolean allRulesPassed = false;
+        while (!allRulesPassed) {
+            for (Rule rule : rules) {
+                if (!rule.isOrderedByTheRule(update)) {
+                    Collections.swap(update, update.indexOf(rule.getX()), update.indexOf(rule.getY()));
+                }
+            }
+
+            for (Rule rule : rules) {
+                if (rule.isOrderedByTheRule(update)) {
+                    allRulesPassed = true;
+                } else {
+                    allRulesPassed = false;
+                    break;
+                }
+            }
+        }
+
+        return update;
+    }
     private static Integer getMiddlePageSum(List<List<Integer>> listOfInputs) {
         Integer sumOfMiddles = 0;
         boolean allRulesPassed = true;
@@ -60,18 +95,13 @@ public class Day5 {
                     .map(String::valueOf)
                     .collect(Collectors.joining(" "));
 
-            System.out.println("Output: " + output);
-
             for (Rule rule : rules) {
-                System.out.println("Rule: " + rule.getX() + " | " + rule.getY());
                 if (!rule.isOrderedByTheRule(input)) {
-                    System.out.println("False");
                     allRulesPassed = false;
                     break;
                 }
             }
 
-            System.out.println("middle: " + input.get(input.size()/2));
             if (allRulesPassed)
                 sumOfMiddles += input.get(input.size()/2);
 
