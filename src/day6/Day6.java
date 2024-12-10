@@ -9,5 +9,9 @@ public class Day6 {
         System.out.println(FileUtils.getListOfLines(path).get(0).length());
     }
 
+    private void start(Guard guard, Field field) {
+
+    }
+
 
 }
