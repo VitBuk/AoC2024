@@ -2,14 +2,19 @@ package day6;
 
 import utils.FileUtils;
 
+import java.util.List;
+
 public class Day6 {
     private static final String path = "src\\day6\\input.txt";
 
     public static void getAnswer() {
-        System.out.println(FileUtils.getListOfLines(path).get(0).length());
+
+        List<List<String>> field = FileUtils.getListOfListOfStrings(path);
+
     }
 
-    private void start(Guard guard, Field field) {
+    private void start(Field field) {
+
 
     }
 

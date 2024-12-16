@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileUtils {
 
@@ -27,5 +28,21 @@ public class FileUtils {
         }
 
         return null;
+    }
+
+    public static List<List<String>> getListOfListOfStrings(String path) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(path));
+
+            List<List<String>> listOfLines = lines.stream()
+                    .map(row -> row.chars()
+                            .mapToObj(c -> String.valueOf((char)c))
+                            .collect(Collectors.toList()))
+                    .toList();
+
+            return listOfLines;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

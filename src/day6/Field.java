@@ -1,14 +1,15 @@
 package day6;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Field {
 
-    List<List<String>> field;
+    private List<List<String>> field;
+    private Guard guard;
 
     public Field(List<List<String>> field, Guard guard) {
         this.field = field;
+        this.guard = guard;
     }
 
     public String getByLocation(int x, int y) {
@@ -53,5 +54,13 @@ public class Field {
         else System.out.println("IMPOSSIBLE DIRECTION");
 
         return false;
+    }
+
+    public Guard getGuard() {
+        return guard;
+    }
+
+    public void setGuard(Guard guard) {
+        this.guard = guard;
     }
 }
